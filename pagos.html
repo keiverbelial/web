@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Pagos - Escuela de Fútbol [Nombre de la Escuela]</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="container header-content">
+            <div class="logo">
+                <img src="img/logo.png" alt="Logo Escuela de Fútbol [Nombre de la Escuela]">
+                <h1>[Nombre de la Escuela de Fútbol]</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="categorias.html">Programas</a></li>
+                    <li><a href="calendario.html">Calendario</a></li>
+                    <li><a href="contacto.html">Contacto</a></li>
+                    <li><a href="perfil.html"><i class="fas fa-user-circle"></i> Mi Perfil</a></li>
+                    <li><a href="pagos.html" class="active"><i class="fas fa-dollar-sign"></i> Pagos</a></li>
+                    <li><a href="javascript:void(0);" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+                </ul>
+            </nav>
+            </div>
+    </header>
+
+    <main>
+        <section class="payments-hero section-spacing">
+            <div class="container">
+                <h2>Gestión de Pagos de Mensualidades</h2>
+                <p class="section-description">Bienvenido al portal de pagos. Aquí puedes gestionar las mensualidades de tu hijo y revisar tu historial.</p>
+                <div class="user-info-display">
+                    <p>¡Hola, **[Nombre del Padre/Tutor]**!</p>
+                    <p>Tu hijo: **[Nombre del Hijo]** (Categoría: **[Categoría del Hijo]**)</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="payment-status-section section-spacing bg-light">
+            <div class="container">
+                <div class="status-cards-grid">
+                    <div class="status-card current-month">
+                        <h4>Mensualidad Actual</h4>
+                        <p class="status-value">**Julio 2025:** <span class="paid-status"><i class="fas fa-check-circle"></i> Pagada</span></p>
+                        <p class="due-date">Fecha de Vencimiento: 31/07/2025</p>
+                    </div>
+                    <div class="status-card next-month">
+                        <h4>Próxima Mensualidad</h4>
+                        <p class="status-value">**Agosto 2025:** <span class="pending-status"><i class="fas fa-exclamation-circle"></i> Pendiente</span></p>
+                        <p class="due-date">Fecha de Vencimiento: 05/08/2025</p>
+                    </div>
+                    <div class="status-card scholarship-info">
+                        <h4>Becas y Descuentos</h4>
+                        <p class="status-value">Aplicada: <span class="scholarship-name">Beca Deportiva del 20%</span></p>
+                        <p class="exemption-amount">Exoneración: **$10.00** USD</p>
+                        <p class="final-amount-note">Monto a Pagar (Agosto): **$40.00** USD</p>
+                    </div>
+                </div>
+
+                <div class="debt-bar-container">
+                    <h4>Estado de Deuda</h4>
+                    <div class="debt-bar overdue"> <div class="debt-progress" style="width: 70%;"></div> <p class="debt-message">
+                            <i class="fas fa-exclamation-triangle"></i> Tienes **2 mensualidades atrasadas**.
+                            <span class="debt-amount">Monto total pendiente: **$100.00** USD</span>
+                        </p>
+                        <button class="btn btn-danger btn-pay-now">Pagar Deudas Ahora</button>
+                    </div>
+                    </div>
+            </div>
+        </section>
+
+        <section class="payment-form-section section-spacing">
+            <div class="container">
+                <h3>Realizar Nuevo Pago</h3>
+                <div class="payment-form-wrapper">
+                    <form action="#" method="POST" class="payment-form">
+                        <div class="form-group">
+                            <label for="student-name">Jugador:</label>
+                            <input type="text" id="student-name" name="student_name" value="[Nombre del Hijo]" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="student-category">Categoría:</label>
+                            <input type="text" id="student-category" name="student_category" value="[Categoría del Hijo]" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="month-to-pay">Mensualidad a Pagar:</label>
+                            <select id="month-to-pay" name="month_to_pay" required>
+                                <option value="">Selecciona la mensualidad</option>
+                                <option value="agosto-2025" selected>Agosto 2025 ($40.00 USD - con descuento)</option>
+                                <option value="julio-2025-atrasada">Julio 2025 (Atrasada - $50.00 USD)</option>
+                                <option value="junio-2025-atrasada">Junio 2025 (Atrasada - $50.00 USD)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="payment-method">Método de Pago:</label>
+                            <select id="payment-method" name="payment_method" required>
+                                <option value="">Selecciona un método</option>
+                                <option value="mercadopago">MercadoPago</option>
+                                <option value="paypal">PayPal</option>
+                                <option value="zelle">Zelle</option>
+                                <option value="transferencia-bs">Transferencia Bancaria (Bs - Tasa BCV)</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="bs-rate-info" style="display: none;">
+                            <p class="note-info"><i class="fas fa-info-circle"></i> El monto en Bolívares se calculará automáticamente al valor de la tasa del BCV al momento de realizar el pago.</p>
+                            <p class="note-info">Tasa BCV actual (ejemplo): **$1 USD = 36.50 Bs**</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="amount-to-pay">Monto a Pagar:</label>
+                            <input type="text" id="amount-to-pay" name="amount_to_pay" value="$40.00 USD" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="payment-proof">Comprobante de Pago (Solo para Zelle/Transferencia):</label>
+                            <input type="file" id="payment-proof" name="payment_proof" accept="image/*,.pdf" disabled>
+                            <p class="note-info"><i class="fas fa-upload"></i> Sube aquí el capture o PDF del comprobante.</p>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full-width"><i class="fas fa-credit-card"></i> Procesar Pago</button>
+                    </form>
+                    <p class="payment-security-note"><i class="fas fa-shield-alt"></i> Tus transacciones están protegidas por encriptación SSL.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="payment-history-section section-spacing bg-light">
+            <div class="container">
+                <h3>Historial de Pagos</h3>
+                <div class="table-responsive">
+                    <table class="payment-history-table">
+                        <thead>
+                            <tr>
+                                <th>Fecha de Pago</th>
+                                <th>Mensualidad</th>
+                                <th>Monto Pagado</th>
+                                <th>Método</th>
+                                <th>Estado</th>
+                                <th>Comprobante</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>01/07/2025</td>
+                                <td>Julio 2025</td>
+                                <td>$50.00 USD</td>
+                                <td>MercadoPago</td>
+                                <td class="status-paid"><i class="fas fa-check-circle"></i> Pagado</td>
+                                <td><a href="#" target="_blank"><i class="fas fa-file-alt"></i> Ver</a></td>
+                            </tr>
+                            <tr>
+                                <td>05/06/2025</td>
+                                <td>Junio 2025</td>
+                                <td>$50.00 USD</td>
+                                <td>Zelle</td>
+                                <td class="status-paid"><i class="fas fa-check-circle"></i> Pagado</td>
+                                <td><a href="#" target="_blank"><i class="fas fa-file-alt"></i> Ver</a></td>
+                            </tr>
+                            <tr>
+                                <td>02/05/2025</td>
+                                <td>Mayo 2025</td>
+                                <td>$50.00 USD</td>
+                                <td>PayPal</td>
+                                <td class="status-paid"><i class="fas fa-check-circle"></i> Pagado</td>
+                                <td><a href="#" target="_blank"><i class="fas fa-file-alt"></i> Ver</a></td>
+                            </tr>
+                            <tr>
+                                <td>01/04/2025</td>
+                                <td>Abril 2025</td>
+                                <td>$50.00 USD</td>
+                                <td>MercadoPago</td>
+                                <td class="status-paid"><i class="fas fa-check-circle"></i> Pagado</td>
+                                <td><a href="#" target="_blank"><i class="fas fa-file-alt"></i> Ver</a></td>
+                            </tr>
+                            <tr>
+                                <td>05/03/2025</td>
+                                <td>Marzo 2025</td>
+                                <td>$50.00 USD</td>
+                                <td>Transferencia Bs</td>
+                                <td class="status-pending"><i class="fas fa-hourglass-half"></i> Pendiente</td>
+                                <td><a href="#" target="_blank"><i class="fas fa-file-alt"></i> Ver</a></td>
+                            </tr>
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="main-footer">
+        <div class="container footer-content">
+            <div class="footer-logo">
+                <img src="img/logo_footer.png" alt="Logo Escuela de Fútbol [Nombre de la Escuela]">
+                <p>© 2025 [Nombre de la Escuela de Fútbol]. Todos los derechos reservados.</p>
+            </div>
+            <nav class="footer-nav">
+                <ul>
+                    <li><a href="index.html#inicio">Inicio</a></li>
+                    <li><a href="index.html#nosotros">Acerca de</a></li>
+                    <li><a href="politica-privacidad.html">Política de Privacidad</a></li>
+                    <li><a href="terminos-condiciones.html">Términos y Condiciones</a></li>
+                </ul>
+            </nav>
+            <div class="social-links">
+                <a href="#" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Función placeholder para cerrar sesión
+        function logout() {
+            alert('Has cerrado sesión. Redirigiendo al inicio...');
+            window.location.href = 'index.html'; // O la página de login
+        }
+
+        // Script para la lógica del formulario de pagos (ejemplo)
+        document.addEventListener('DOMContentLoaded', function() {
+            const paymentMethodSelect = document.getElementById('payment-method');
+            const bsRateInfo = document.getElementById('bs-rate-info');
+            const paymentProofInput = document.getElementById('payment-proof');
+            const amountToPayInput = document.getElementById('amount-to-pay');
+            const monthToPaySelect = document.getElementById('month-to-pay');
+
+            // Actualizar monto y habilitar/deshabilitar comprobante según método y mensualidad
+            function updatePaymentForm() {
+                // Lógica para mostrar/ocultar info de tasa BCV
+                if (paymentMethodSelect.value === 'transferencia-bs') {
+                    bsRateInfo.style.display = 'block';
+                } else {
+                    bsRateInfo.style.display = 'none';
+                }
+
+                // Lógica para habilitar/deshabilitar campo de comprobante
+                if (paymentMethodSelect.value === 'zelle' || paymentMethodSelect.value === 'transferencia-bs') {
+                    paymentProofInput.disabled = false;
+                } else {
+                    paymentProofInput.disabled = true;
+                }
+
+                // Lógica para actualizar el monto a pagar según la mensualidad seleccionada
+                const selectedOption = monthToPaySelect.options[monthToPaySelect.selectedIndex];
+                const amount = selectedOption.textContent.match(/\(\$([0-9]+\.[0-9]{2}) USD/);
+                if (amount && amount[1]) {
+                    amountToPayInput.value = `$${amount[1]} USD`;
+                } else {
+                    amountToPayInput.value = '$0.00 USD'; // Default o si no encuentra monto
+                }
+            }
+
+            paymentMethodSelect.addEventListener('change', updatePaymentForm);
+            monthToPaySelect.addEventListener('change', updatePaymentForm);
+
+            // Ejecutar al cargar para establecer el estado inicial
+            updatePaymentForm();
+
+            // Simulación de envío de formulario (esto NO envía datos reales)
+            document.querySelector('.payment-form').addEventListener('submit', function(event) {
+                event.preventDefault(); // Evita el envío real del formulario
+
+                const selectedMonth = monthToPaySelect.options[monthToPaySelect.selectedIndex].text;
+                const selectedMethod = paymentMethodSelect.options[paymentMethodSelect.selectedIndex].text;
+                const amountPaid = amountToPayInput.value;
+
+                alert(`Simulación de pago:\n\nMensualidad: ${selectedMonth}\nMonto: ${amountPaid}\nMétodo: ${selectedMethod}\n\n¡Pago procesado (simulado) exitosamente!`);
+                // Aquí en un sistema real, se enviaría la data al backend
+                // y se redirigiría o actualizaría la vista del historial.
+            });
+        });
+    </script>
+</body>
+</html>
